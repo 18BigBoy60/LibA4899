@@ -52,3 +52,12 @@ void LibA4988::stepSplit(int s = 1){
 		digitalWrite(_ms3, 1);
 	}
 }
+
+void LibA4988::direction(int n = 1){
+	if (n == 1){
+		digitalWrite(_dir, 1)
+	}
+	if{
+		digitalWrite(_dir, 0);
+	}
+}

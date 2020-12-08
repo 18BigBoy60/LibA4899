@@ -7,16 +7,9 @@ class LibA4988{
 	public:
 		LibA4988(int 1A, int 2A, int 1B, int 2B,int step, int ms1, int ms2, int ms3, int en = -1, int dir = 1);
 		void stepSplit(int s);
+		void direction(int n);
 	private:
-		int _1A;
-		int _2A;
-		int _1B;
-		int _2B;
-		int _step;
-		int _ms1;
-		int _ms2;
-		int _ms3;
-		int _en;
-		int _dir;
+		int _1A, _2A, _1B, _2B, _step, _ms1, _ms2, _ms3, _en, _dir;
+		int x_0, x_n;
 }
 #endif
