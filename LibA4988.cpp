@@ -1,15 +1,7 @@
 #include "Arduino.h"
 #include "LibA4988.h"
 
-LibA4988::LibA4988(int 1A, int 2A, int 1B, int 2B,int step, int ms1, int ms2, int ms3, int en = -1, int dir = 1){
-		_1A = 1A;
-		pinMode(_1A, OUTPUT);
-		_2A = 2A;
-		pinMode(_2A, OUTPUT);
-		_1B = 1B;
-		pinMode(_1B, OUTPUT);
-		_2B = 2B;
-		pinMode(_2B, OUTPUT);
+LibA4988::LibA4988(int step, int ms1, int ms2, int ms3, int dir = 1){
 		_step = step;
 		pinMode(_step, OUTPUT);
 		_ms1 = ms1;
@@ -18,10 +10,12 @@ LibA4988::LibA4988(int 1A, int 2A, int 1B, int 2B,int step, int ms1, int ms2, in
 		pinMode(_ms2, OUTPUT);
 		_ms3 = ms3;
 		pinMode(_ms3, OUTPUT);
-		_en = en;
-		pinMode(_en, OUTPUT);
 		_dir = dir;	
 		pinMode(_dir, OUTPUT);
+		_x_0 = 0;
+		_x_n = 0;
+		_x_s = 0;
+		_st = 0;
 		stepSplit();
 		direction();
 }
@@ -59,7 +53,7 @@ void LibA4988::stepSplit(int s = 1){
 
 void LibA4988::direction(int n = 1){
 	if (n == 1){
-		digitalWrite(_dir, 1)
+		digitalWrite(_dir, 1);
 	}
 	if (n == -1){
 		digitalWrite(_dir, 0);
@@ -75,7 +69,8 @@ void LibA4988::goTo(int x_n){
 	if (_x_n > 0){
 		direction(1);
 	}
-	for(int x = 0; x < abs(_x_n); x++) {
+	_x_n = abs(_x_n);
+	for(int x = 0; x < _x_n; x++) {
 		digitalWrite(_step, HIGH);
 		delayMicroseconds(1000);
 		digitalWrite(_step, LOW);
@@ -84,15 +79,16 @@ void LibA4988::goTo(int x_n){
 }
 
 
-void setZeroPosition(){
+void LibA4988::setZeroPosition(){
 	_x_0 = _x_s;
 	_x_s = 0;
 }
 
 
-void setDegree(int degree){
-	int x = (degree / 1.8) * _st;
-	for(x = 0; x < abs(_x_n); x++) {
+void LibA4988::setDegree(int degree){
+	degree = abs(degree);
+	int d = (degree / 1.8) * _st;
+	for(int x = 0; x < d; x++) {
 		digitalWrite(_step, HIGH);
 		delayMicroseconds(1000);
 		digitalWrite(_step, LOW);
