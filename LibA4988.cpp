@@ -86,26 +86,18 @@ void LibA4988::goTo(int x_n){
 	_speed = constrain(500, 2000, _speed - (_a * 10));
 	if (_x_n < 0){
 		direction(-1);
-		for(int x = _x_s; x > _x_n; x--) {
-			digitalWrite(_step, HIGH);
-			delayMicroseconds(_speed);
-			digitalWrite(_step, LOW);
-			delayMicroseconds(_speed);
-		}
-		_x_s = _x_n;
 	}
 	if (_x_n > 0){
 		direction(1);
-		for(int x = _x_s; x < _x_n; x++) {
-			digitalWrite(_step, HIGH);
-			delayMicroseconds(_speed);
-			digitalWrite(_step, LOW);
-			delayMicroseconds(_speed);
-		}
-		_x_s = _x_n;
 	}
-	
-
+	_x_n = abs(_x_n - _x_s);
+	for(int x = 0; x < _x_n; x++) {
+		digitalWrite(_step, HIGH);
+		delayMicroseconds(_speed);
+		digitalWrite(_step, LOW);
+		delayMicroseconds(_speed);
+	}
+	_x_s = _x_n;
 }
 
 
